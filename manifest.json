@@ -1,0 +1,21 @@
+{
+  "name": "Fashion Domino",
+  "version": "1.0.2",
+  "manifest_version": 2,
+  "description": "Product import",
+  "devtools_page": "devtools.html",
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "<all_urls>",
+    "*://*/*",
+    "http://*/*",
+    "https://*/*",
+    "webNavigation"
+  ],
+  "background": {
+  "scripts": ["background.js"],
+  "persistent": false
+  },
+  "web_accessible_resources": ["contentScript.js"]
+}

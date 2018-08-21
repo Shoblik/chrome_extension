@@ -1,0 +1,34 @@
+.header {
+  text-align: center;
+}
+p.text-muted {
+    color: #6c757d;
+}
+.italic {
+  font-style: italic;
+}
+button.selectorBtn {
+    margin-left: 2rem;
+    background-color: #17a2b8;
+    border: 2px solid transparent;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+.selectorDescription, .selectorBtn {
+    display: inline-block;
+}
+p.selectorDescription {
+    padding-left: 15px;
+}
+/*
+featured image
+thumbnails
+color option images
+color names
+Product Name
+Style no
+Wholesale Price
+Retail Price
+Description
+*/
