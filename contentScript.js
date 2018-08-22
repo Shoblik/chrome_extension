@@ -1,16 +1,37 @@
 document.addEventListener('click', handleElementClicked, true);
 
-function handleElementClicked() {
+if (typeof activeSelect !== 'undefined') {
+  activeSelect = true;
+} else {
+  var activeSelect = true;
+}
+
+
+$('body').children().mouseover(function(e){
+    if (activeSelect) {
+      $(".hova").removeClass("hova");
+      $(e.target).addClass("hova");
+      return false;
+    }
+}).mouseout(function(e) {
+    $(this).removeClass("hova");
+});
+
+function handleElementClicked(e) {
+  e.stopPropagation();
+  e.preventDefault();
+  activeSelect = false;
   // prevent subsequent clicks by the user
   document.removeEventListener('click', handleElementClicked, true);
 
   // get the target elements three parents along with 2 class names
   let targetEle = event.target;
+
   let selector = null;
 
   let eleTag = targetEle.localName;
   if (targetEle.classList) {
-    eleTagClass = '.' + targetEle.classList[0];
+    eleTagClass = createClassArray(targetEle.classList);
   } else {
     eleTagClass = '';
   }
@@ -38,16 +59,21 @@ function handleElementClicked() {
   } else {
     eleParentClass3 = '';
   }
-  debugger;
 
-  chrome.runtime.sendMessage({data: "eleThatWasClicked"}, function(response) {
+  //Combine selectors and tags
+  selector = eleParentTag3 + eleParentClass3 + ' ' + eleParentTag2 + eleParentClass2 + ' ' + eleParentTag1 + eleParentClass1 + ' ' + eleTag + eleTagClass;
+  console.dir(selector);
+
+  chrome.runtime.sendMessage({'selector': selector, 'destination': destination}, function(response) {
     console.log(response + 'from contentScript.js');
   });
 }
 function createClassArray(obj) {
   let tmp = '';
   for (let i = 0; i < obj.length; i++) {
-    tmp += '.' + obj[i];
+    if (obj[i] !== 'hova' && obj[i] !== 'active' && obj[i] !== 'select' && obj[i] !== 'selected') {
+      tmp += '.' + obj[i];
+    }
   }
   return tmp;
 }

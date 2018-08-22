@@ -4,16 +4,28 @@
     });
     function makeSelection() {
       let destination = $(this).attr('destination');
+      let scriptVar = `var destination = '${destination}';`
+      chrome.tabs.insertCSS({
+        file: 'css/content.css'
+      })
       chrome.tabs.executeScript({
-        file: "contentScript.js",
-        runAt: "document_end"
+         file: 'jquery/jquery_min.js'
+      });
+      chrome.tabs.executeScript({
+          code: scriptVar,
+      }, function() {
+          chrome.tabs.executeScript({file: 'contentScript.js'})
       });
     }
-    function handleMessage(request, sender, sendResponse) {
-      console.log('message from the content script');
+    function storeSelection(request) {
       console.log(request);
+      $('#' + request.destination).text(request.selector);
+    }
 
-      sendResponse("Response from panel.js - received the payload");
+    // listening for messages from the DOM
+    function handleMessage(request, sender, sendResponse) {
+      storeSelection(request)
+      // sendResponse("Response from panel.js - received the payload");
     }
 
     chrome.runtime.onMessage.addListener(handleMessage);

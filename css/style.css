@@ -21,6 +21,10 @@ button.selectorBtn {
 p.selectorDescription {
     padding-left: 15px;
 }
+.selected {
+    display: inline-block;
+    padding-left: 15px;
+}
 /*
 featured image
 thumbnails
